@@ -34,8 +34,6 @@ app.post("/", function(req,res){
   };
 
   var jsonData = JSON.stringify(data);
-
-
   var options = {
     url: "https://us4.api.mailchimp.com/3.0/lists/f2f772bce4",
     method:"POST",
@@ -46,21 +44,20 @@ app.post("/", function(req,res){
   };
 
   request(options, function(error,response,body){
-    error
-    ?console.log(error)
-    :console.log(response.statusCode);
+    if(error){
+      res.sendFile(__dirname + "/failure.html");
+    }else{
+        res.sendFile(__dirname + "/success.html");
+    }
   });
-
 });
 
 
-app.listen(3000,function(){
+app.post("/failure", function(req,res){
+  res.redirect("/");
+
+});
+
+app.listen(process.env.PORT || 3000,function(){
   console.log("Server is runing on port 3000");
 });
-
-
-
-// c24dbbcad75c3c70cc41e22b1f740d43-us4    API key 
-
-
-// f2f772bce4      List ID
